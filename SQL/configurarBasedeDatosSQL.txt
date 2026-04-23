@@ -1,0 +1,23 @@
+PASO 1: Abrir MySQL Workbench
+Abrí MySQL Workbench
+Hacé click en tu conexión (ej: Local instance MySQL80)
+Ingresá tu password  (root123)
+
+
+
+PASO 2: Crear la base de datos
+
+En el editor, pegá esto:
+
+CREATE DATABASE ventas;
+
+▶ Ejecutalo (botón ⚡ o Ctrl + Enter)
+
+📌 PASO 3: Seleccionar la base
+USE ventas;
+
+▶ Ejecutar
+
+🧱 PASO 4: Crear las tablas
+
+Ahora pegá TODO este bloque y ejecutalo:

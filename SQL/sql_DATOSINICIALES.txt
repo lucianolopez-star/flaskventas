@@ -1,0 +1,11 @@
+-- Tipos de movimiento
+INSERT INTO TpoMovimientos VALUES
+('VENT','Venta',-1,1,1,1,'ventas'),
+('NCRE','Nota Credito',1,-1,-1,-1,'ventas'),
+('PEDI','Pedido',0,0,0,0,'ventas'),
+('INGR','Ingreso',1,-1,0,0,'ventas'),
+('DEVO','Devolucion',-1,1,0,0,'ventas');
+
+-- Usuario admin
+INSERT INTO Roles (DscRol) VALUES ('ADMIN');
+INSERT INTO Usuarios VALUES ('admin','admin',1);

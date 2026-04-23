@@ -1,0 +1,50 @@
+<!-- =============================
+MEJORA VISUAL VENTAS (templates/ventas.html)
+============================= -->
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="row">
+
+    <div class="col-md-8">
+        <h3>Venta</h3>
+
+        <input class="form-control mb-2" id="codigo" placeholder="Código de barra">
+        <button class="btn btn-primary" onclick="agregar()">Agregar</button>
+
+        <table class="table table-striped mt-3" id="tabla">
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Cant</th>
+                    <th>Precio</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <div class="col-md-4">
+        <h3>Resumen</h3>
+
+        <h4>Total: $<span id="total">0</span></h4>
+
+        <label>Efectivo</label>
+        <input class="form-control" id="efectivo" value="0">
+
+        <label>Tarjeta</label>
+        <input class="form-control" id="tarjeta" value="0">
+
+        <label>Transferencia</label>
+        <input class="form-control" id="transferencia" value="0">
+
+        <h4 class="mt-3">Saldo: $<span id="saldo">0</span></h4>
+
+        <button class="btn btn-success w-100 mt-3" onclick="guardar()">Finalizar</button>
+    </div>
+
+</div>
+
+{% endblock %}

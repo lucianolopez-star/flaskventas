@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h2>Personas</h2>
+
+<form method="POST" action="/personas/nuevo">
+    Tipo: <input name="tpo"><br>
+    CUIT: <input name="cuit"><br>
+    Cond IVA: <input name="condiva"><br>
+    Razón Social: <input name="razon"><br>
+    Domicilio: <input name="domicilio"><br>
+    Localidad: <input name="localidad"><br>
+    Teléfono: <input name="telefono"><br>
+    Email: <input name="email"><br>
+    <button>Guardar</button>
+</form>
+
+<hr>
+
+<table border="1">
+<tr>
+    <th>ID</th>
+    <th>Nombre</th>
+    <th>Acciones</th>
+</tr>
+
+{% for p in personas %}
+<tr>
+    <td>{{p.idPersona}}</td>
+    <td>{{p.RAZONSOCIAL}}</td>
+    <td>
+        <a href="/personas/eliminar/{{p.idPersona}}">Eliminar</a>
+    </td>
+</tr>
+{% endfor %}
+</table>
+
+{% endblock %}

@@ -1,0 +1,186 @@
+CREATE DATABASE ventas;
+USE ventas;
+
+-- =============================
+-- PERSONAS
+-- =============================
+CREATE TABLE Personas (
+    idPersona INT AUTO_INCREMENT PRIMARY KEY,
+    TpoPersona VARCHAR(10),
+    CUIT VARCHAR(20),
+    CONDIVA VARCHAR(50),
+    RAZONSOCIAL VARCHAR(150),
+    DOMICILIO VARCHAR(150),
+    LOCALIDAD VARCHAR(100),
+    TELEFONO VARCHAR(50),
+    EMAIL VARCHAR(100),
+    ESTADO TINYINT DEFAULT 1
+);
+
+-- =============================
+-- CATEGORIAS
+-- =============================
+CREATE TABLE Categorias (
+    idCategoria INT AUTO_INCREMENT PRIMARY KEY,
+    DscCategoria VARCHAR(100)
+);
+
+-- =============================
+-- GRUPOS
+-- =============================
+CREATE TABLE Grupos (
+    idGrupo INT AUTO_INCREMENT PRIMARY KEY,
+    idCategoria INT,
+    dscGrupo VARCHAR(100),
+    FOREIGN KEY (idCategoria) REFERENCES Categorias(idCategoria)
+);
+
+-- =============================
+-- MARCAS
+-- =============================
+CREATE TABLE Marcas (
+    idMarca INT AUTO_INCREMENT PRIMARY KEY,
+    dscMarca VARCHAR(100),
+    IDPROVEEDOR INT,
+    Margen DECIMAL(10,2),
+    FOREIGN KEY (IDPROVEEDOR) REFERENCES Personas(idPersona)
+);
+
+-- =============================
+-- PRODUCTOS
+-- =============================
+CREATE TABLE Productos (
+    CODPRODUCTO INT AUTO_INCREMENT PRIMARY KEY,
+    DSCPRODUCTO VARCHAR(150),
+    CODIGOBARRA VARCHAR(50),
+    IDCATEGORIA INT,
+    IDGRUPO INT,
+    IDMARCA INT,
+    COSTO DECIMAL(10,2),
+    PRECIO1 DECIMAL(10,2),
+    PRECIO2 DECIMAL(10,2),
+    PRECIO3 DECIMAL(10,2),
+    STOCK DECIMAL(10,2),
+    PACK INT,
+    PorcGanancia DECIMAL(10,2),
+    UNIDADMEDIDA VARCHAR(20),
+    FOREIGN KEY (IDCATEGORIA) REFERENCES Categorias(idCategoria),
+    FOREIGN KEY (IDGRUPO) REFERENCES Grupos(idGrupo),
+    FOREIGN KEY (IDMARCA) REFERENCES Marcas(idMarca)
+);
+
+-- =============================
+-- TIPOS DE MOVIMIENTO
+-- =============================
+CREATE TABLE TpoMovimientos (
+    tpoMovimiento VARCHAR(10) PRIMARY KEY,
+    DscMovimiento VARCHAR(100),
+    FactorStock INT,
+    FactorCaja INT,
+    FactorCtaCte INT,
+    FactorIVA INT,
+    nomFormulario VARCHAR(100)
+);
+
+-- =============================
+-- MOVIMIENTOS
+-- =============================
+CREATE TABLE Movimientos (
+    idMovimiento INT AUTO_INCREMENT PRIMARY KEY,
+    FecMovimiento DATETIME,
+    IdPersona INT,
+    DscMovimiento VARCHAR(100),
+    TpoMovimiento VARCHAR(10),
+    TpoVenta VARCHAR(20),
+    SubTotal DECIMAL(10,2),
+    Total DECIMAL(10,2),
+    Descuento DECIMAL(10,2),
+    TotalEfectivo DECIMAL(10,2),
+    TotalTarjeta DECIMAL(10,2),
+    TotalCtaCte DECIMAL(10,2),
+    TotalTransferencia DECIMAL(10,2),
+    FacturaLetra VARCHAR(5),
+    idVendedor INT,
+    IVA DECIMAL(10,2),
+    Comprobante VARCHAR(50),
+    idCtaCte INT,
+    nroRemito VARCHAR(50),
+    Bultos INT,
+    montoEnvio DECIMAL(10,2),
+    observaciones TEXT,
+    CAE VARCHAR(50),
+    NroComprobanteFA VARCHAR(50),
+    FecVencimientoFA DATETIME,
+    CodigoBarraFA VARCHAR(100),
+    FOREIGN KEY (IdPersona) REFERENCES Personas(idPersona),
+    FOREIGN KEY (TpoMovimiento) REFERENCES TpoMovimientos(tpoMovimiento)
+);
+
+-- =============================
+-- MOVIMIENTOS DETALLE
+-- =============================
+CREATE TABLE Movimientos_Detalle (
+    idMovimiento INT,
+    orden INT,
+    TpoMovimiento VARCHAR(10),
+    CodProducto INT,
+    DscProducto VARCHAR(150),
+    Cantidad DECIMAL(10,2),
+    PorcentajeIVA DECIMAL(10,2),
+    PrecioUnitario DECIMAL(10,2),
+    Descuento DECIMAL(10,2),
+    Total DECIMAL(10,2),
+    estado TINYINT,
+    PRIMARY KEY (idMovimiento, orden),
+    FOREIGN KEY (idMovimiento) REFERENCES Movimientos(idMovimiento),
+    FOREIGN KEY (CodProducto) REFERENCES Productos(CODPRODUCTO)
+);
+
+-- =============================
+-- CUENTAS CORRIENTES
+-- =============================
+CREATE TABLE CuentasCorrientes (
+    idCuenta INT AUTO_INCREMENT PRIMARY KEY,
+    idMovimiento INT,
+    Tipo VARCHAR(10),
+    MontoTotal DECIMAL(10,2),
+    Pago DECIMAL(10,2),
+    FecVencimiento DATETIME,
+    idPersona INT,
+    FecCtaCte DATETIME,
+    FecPago DATETIME,
+    Concepto VARCHAR(150),
+    FOREIGN KEY (idMovimiento) REFERENCES Movimientos(idMovimiento),
+    FOREIGN KEY (idPersona) REFERENCES Personas(idPersona)
+);
+
+-- =============================
+-- PARAMETROS
+-- =============================
+CREATE TABLE Parametros (
+    Titulo VARCHAR(100),
+    DscApp VARCHAR(100),
+    Parametro1 VARCHAR(100),
+    Parametro2 VARCHAR(100),
+    Parametro3 VARCHAR(100),
+    Dias INT,
+    Margen DECIMAL(10,2)
+);
+
+-- =============================
+-- ROLES
+-- =============================
+CREATE TABLE Roles (
+    idRol INT AUTO_INCREMENT PRIMARY KEY,
+    DscRol VARCHAR(50)
+);
+
+-- =============================
+-- USUARIOS
+-- =============================
+CREATE TABLE Usuarios (
+    idUsuario VARCHAR(50) PRIMARY KEY,
+    password VARCHAR(100),
+    idRoles INT,
+    FOREIGN KEY (idRoles) REFERENCES Roles(idRol)
+);

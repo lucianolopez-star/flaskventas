@@ -1,0 +1,239 @@
+1. Versión y entorno
+
+Versión de Python: 3.12
+Sistema operativo: Windows 
+Si vas a usar entorno virtual: si (venv)
+
+2. Base de datos (Access + pyodbc)
+
+datos.accdb
+
+Tabla Personas:
+Campos:
+idPersona PK
+TpoPersona (CLIE, PROV, USUA)
+CUIT
+CONDIVA
+RAZONSOCIAL
+DOMICILIO
+LOCALIDAD
+TELEFONO
+EMAIL
+ESTADO
+
+Tabla Productos
+CODPRODUCTO PK
+DSCPRODUCTO  
+CODIGOBARRA
+IDCATEGORIA FK
+IDGRUPO  FK
+IDMARCA  FK
+COSTO  
+PRECIO1
+PRECIO2
+PRECIO3
+STOCK
+PACK
+PorcGanancia
+UNIDADMEDIDA
+
+Tabla Categorias
+idCategoria PK
+DscCategoria 
+
+Tabla Grupos
+idGrupo PK
+idCategoria FK
+dscGrupo
+
+Tabla Marcas
+idMarca PK
+DscMarca
+
+Tabla Movimientos
+idMovimiento  PK
+FecMovimiento 
+IdPersona FK
+DscMovimiento
+TpoMovimiento FK
+TpoVenta 
+SubTotal
+Total
+Descuento
+TotalEfectivo
+TotalTarjeta
+TotalCtaCte
+TotalTransferencia
+FacturaLetra
+idVendedor
+IVA
+Comprobante
+idCtaCte FK
+nroRemito
+Bultos
+montoEnvio
+observaciones
+CAE
+NroComprobanteFA
+FecVencimientoFA
+CodigoBarraFA
+IVA
+
+Tabla Movimientos_Detalle
+idMovimiento PK
+orden PK
+TpoMovimiento FK
+CodProducto FK
+DscProducto 
+Cantidad
+PorcentajeIVA
+PrecioUnitario
+Descuento
+Total
+estado
+
+
+Tabla TpoMovimientos
+tpoMovimiento PK (ej VENT, PEDI, CRED, PRES)
+DscMovimiento
+FactorStock (numerico 0,1,-1, como impacta al stock el movimiento)
+FactorCaja (numerico 0,1,-1 ; como impacta a la caja el movimiento)
+FactorCtaCte (numerico 0,1,-1 ; como impacta a la cta Cte el movimiento)
+FactorIVA (numerico 0,1,-1 ; como impacta al IVA el movimiento)
+nomFormulario (como se llama el formulario por defecto usado para este tipo de movimiento)
+
+Tabla CuentasCorrientes
+idCuenta PK
+idMovimiento FK
+Tipo (DEUD, PAGO)
+MontoTotal
+Pago
+FecVencimiento
+idPersona
+FecCtaCte
+FecPago
+Concepto
+
+tabla Parametros
+Titulo
+DscApp
+Parametro1
+Parametro2
+Parametro3
+Dias
+Margen
+
+tabla Marcas
+idMarca PK
+dscMarca
+IDPROVEEDOR FK (IDPERSONA DE TABLA PERSONAS)
+Margen
+
+tabla Usuarios
+idUsuario PK
+password
+idRoles FK
+
+tabla Roles
+idRol
+DscRol
+
+Relaciones entre tablas 
+FK son las foreing key
+PK son las claves primarias
+
+conexión directa 
+
+
+3. Arquitectura que preferís
+
+Más profesional tipo:
+
+
+models/
+
+
+routes/
+
+
+templates/
+
+
+static/
+
+4. Frontend
+
+HTML
+
+¿Necesitás validaciones en el cliente?
+Si
+
+5. Usuarios / Login
+Si, tablas Usuarios y Roles
+
+¿Va a tener sistema de usuarios?
+Si
+
+¿Roles (admin, vendedor, etc.) o algo simple?
+Roles
+
+6. Funcionalidad de ventas
+Esto es clave para modelar bien:
+¿Venta tipo ticket simple o factura?
+ticket simple
+
+¿Una venta puede tener múltiples productos? (seguro que sí, pero confirmame)
+Si
+
+¿Necesitás:
+stock automático?
+Si
+
+historial de ventas?
+Si
+
+reportes?
+Si
+VentasDiarias
+VentasPorCategoria
+VentasPorGrupo
+VentasPorMarca
+ListadoDeudores
+ListadoAcreedores
+
+
+7. CRUDs típicos (confirmame cuáles)
+Productos
+Personas
+Marcas
+Grupos
+Categorias
+CuentasCorrientes
+
+Los formularios de Movimientos tiene que ser uno para cada tipo de movimiento
+Movimientos y Detalle de Movimientos
+Los Tipos de Movimientos pueden ser: 
+VENT - Ventas, disminuyen el stock y aumentan la ingresos
+NCRE - Notas de Creditos, aumentan stock, disminuye los ingresos
+PEDI - Pedidos, no modifican stock ni caja
+INGR -  Ingreso de Mercaderia, aumenta stock y disminuye ingresos
+DEVO - Devolucion de Mercaderia, disminuye stock y aumenta ingreso 
+
+Estos formularios tienen una cabezera donde busco el numero de Cliente, ingreso fecha y demas datos de cabecera y pie de formulario
+Una lista con los productos que voy agregando al movimiento y busqueda a traves del codigo de barra o la descripcion
+Si existe un total en cuentaCorriente, se debe cargar a la persona del movimiento una deuda en la tabla cuentaCorrientes
+
+Usuarios, si
+
+8. Nivel de complejidad que buscás
+
+Intermedio (usable en negocio chico)
+
+
+Devolveme:
+
+proyecto completo listo para correr
+código organizado
+conexión a Access funcionando con pyodbc
+templates HTML
+y explicación paso a paso

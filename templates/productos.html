@@ -1,0 +1,18 @@
+"""
+{% extends 'base.html' %}
+{% block content %}
+<h2>Productos</h2>
+<form method="POST" action="/productos/nuevo">
+    Descripción: <input name="descripcion">
+    Precio: <input name="precio">
+    Stock: <input name="stock">
+    <button>Guardar</button>
+</form>
+
+<ul>
+{% for p in productos %}
+    <li>{{p.DSCPRODUCTO}} - {{p.PRECIO1}}</li>
+{% endfor %}
+</ul>
+{% endblock %}
+"""
