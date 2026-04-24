@@ -1,6 +1,7 @@
 DB_CONFIG = {
-    "host": "localhost",
-    "user": "root",
-    "password": "root123",
-    "database": "ventas"
+    "host": "luchoalopez.mysql.pythonanywhere-services.com",
+    "user": "luchoalopez",
+    "password": "VillaguayFunes_1792",
+    "database": "luchoalopez$datos"
+    "port":3306,
 }
